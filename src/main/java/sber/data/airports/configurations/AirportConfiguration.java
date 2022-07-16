@@ -3,12 +3,11 @@ package sber.data.airports.configurations;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -24,14 +23,16 @@ public class AirportConfiguration {
     }
 
     @Bean
-    public Map<Integer, String[]> mapOfAirports(@Value("classpath:airports.dat") Resource resource) {
+    public Map<Integer, String[]> mapOfAirports() {
 
         Map<Integer, String[]> map = new HashMap<>();
 
-        if (resource.exists() && resource.isFile() && resource.isReadable()) {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("airports.dat");
+
+        if (inputStream != null) {
 
             try (
-                    CSVReader csvReader = new CSVReader(new InputStreamReader(resource.getInputStream()))
+                    CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream))
             ) {
 
                 for (String[] props : csvReader.readAll()) {
@@ -45,7 +46,7 @@ public class AirportConfiguration {
             }
 
         } else {
-            log.error("Cannot read from file");
+            log.error("Cannot access file");
         }
 
         return map;
