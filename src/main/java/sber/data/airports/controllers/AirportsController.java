@@ -35,7 +35,9 @@ public class AirportsController {
         try {
 
             airportRequest.setId((Integer) map.get("id"));
-            airportRequest.setTimestamp(simpleDateFormat.parse((String) map.get("timestamp")));
+            synchronized (this) {
+                airportRequest.setTimestamp(simpleDateFormat.parse((String) map.get("timestamp")));
+            }
             airportRequest.setCurrentThreadName((String) map.get("currentThreadName"));
             airportRequest.setUuid(UUID.fromString((String) map.get("uuid")));
 
