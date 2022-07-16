@@ -42,7 +42,10 @@ public class AirportServiceImpl implements AirportService {
 
     private UUID generateUuid(Date timestamp){
 
-        String stringForUuid = RESPONSE.concat(String.valueOf(timestamp.getTime()));
+        String stringForUuid = RESPONSE
+                .concat(Thread.currentThread().getName())
+                .concat(" ")
+                .concat(String.valueOf(timestamp.getTime()));
         log.trace("String for UUID: \"{}\"", stringForUuid);
 
         UUID generatedUuid = UUID.nameUUIDFromBytes(stringForUuid.getBytes(StandardCharsets.UTF_8));
