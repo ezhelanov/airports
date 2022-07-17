@@ -9,18 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @Log4j2
 public class AirportConfiguration {
-
-    @Bean
-    public SimpleDateFormat simpleDateFormat() {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-    }
 
     @Bean
     public Map<Integer, String[]> mapOfAirports() {
