@@ -2,10 +2,16 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /airports
 
-COPY target/airports-0.0.1-SNAPSHOT.jar .
+COPY .mvn .mvn
+COPY mvnw .
+COPY pom.xml .
 
-ENV PORT 1580
+RUN ./mvnw dependency:go-offline
 
-EXPOSE $PORT
+COPY src src
 
-CMD ["java", "-jar", "airports-0.0.1-SNAPSHOT.jar"]
+RUN ./mvnw package
+
+EXPOSE 1580
+
+CMD ["java", "-jar", "./target/airports-0.0.1-SNAPSHOT.jar"]
